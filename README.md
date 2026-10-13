@@ -52,8 +52,42 @@ python price_gap.py AAPL -d 7
 | `tickers` | Stock symbols (e.g., AAPL GOOGL) | Required |
 | `-d, --days` | Number of days to look back | 30 |
 
+### Portfolio Export (`portfolio_export.py`)
+
+Export a Yahoo Finance portfolio's holdings and prices to CSV.
+
+Authenticates through a persistent Playwright browser — on first run a browser
+opens for you to sign in once; the session is cached in `.yahoo_session/` and
+reused on later runs.
+
+```bash
+python portfolio_export.py                    # default: p_4 portfolio
+python portfolio_export.py -u <pf_url>        # a different portfolio
+python portfolio_export.py --no-enrich        # skip yfinance company-name enrichment
+python portfolio_export.py --headless         # reuse logged-in session without opening a window
+```
+
+Output is `portfolio_p<id>_<timestamp>.csv`. A raw copy of Yahoo's portfolio
+API JSON (when captured) is also saved into `.yahoo_session/`.
+
+| Argument | Description | Default |
+|----------|-------------|---------|
+| `-u, --url` | Portfolio URL to export | `.../portfolio/p_4/view/v1` |
+| `-o, --output` | Output CSV path | `portfolio_p<id>_<timestamp>.csv` |
+| `--headless` | Run browser headless (session must be logged in) | False |
+| `--no-enrich` | Skip yfinance company-name enrichment | False |
+
+First run:
+
+```bash
+pip install -r requirements.txt
+python -m playwright install chromium
+python portfolio_export.py   # sign in when the browser opens
+```
+
 ## Installation
 
 ```bash
 pip install -r requirements.txt
+python -m playwright install chromium
 ```
