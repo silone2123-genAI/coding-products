@@ -1,21 +1,17 @@
-# Option IV Query
+# Coding Products
 
-A Python script to query the Implied Volatility (IV) of stock options using Yahoo Finance data.
+Python scripts for financial data analysis using Yahoo Finance.
 
-## Features
+## Scripts
 
-- Query IV for any publicly traded stock with options
+### Option IV Query (`option_iv.py`)
+
+Query the Implied Volatility (IV) of stock options.
+
+**Features:**
 - Filter by expiration date, strike price, and option type (call/put)
 - Defaults to nearest expiration and most liquid contract (highest open interest)
 - Verbose mode shows all available strikes with their IVs, volume, and moneyness
-
-## Installation
-
-```bash
-pip install -r requirements.txt
-```
-
-## Usage
 
 ```bash
 # Query nearest call option for AAPL
@@ -31,8 +27,6 @@ python option_iv.py AAPL -e 2024-12-20 -s 190 -t call
 python option_iv.py AAPL -e 2024-12-20 --verbose
 ```
 
-## Arguments
-
 | Argument | Description | Default |
 |----------|-------------|---------|
 | `ticker` | Stock symbol (e.g., AAPL) | Required |
@@ -41,17 +35,25 @@ python option_iv.py AAPL -e 2024-12-20 --verbose
 | `-t, --type` | Option type: call or put | call |
 | `-v, --verbose` | Show all options with their IVs | False |
 
-## Example Output
+### Price Gap (`price_gap.py`)
 
+List the price gap between current day and N days ago for given symbol(s).
+
+```bash
+# Default (30 days)
+python price_gap.py AAPL GOOGL MSFT
+
+# Custom period
+python price_gap.py AAPL -d 7
 ```
-Ticker:       AAPL
-Expiration:   2024-12-20
-Type:         CALL
-Spot Price:   $195.71
-Strike:       $190.00
-Last Price:   $8.50
-Volume:       1234
-Open Interest:5678
 
-Implied Volatility (IV): 28.45%
+| Argument | Description | Default |
+|----------|-------------|---------|
+| `tickers` | Stock symbols (e.g., AAPL GOOGL) | Required |
+| `-d, --days` | Number of days to look back | 30 |
+
+## Installation
+
+```bash
+pip install -r requirements.txt
 ```
