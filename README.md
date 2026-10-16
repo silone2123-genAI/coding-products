@@ -52,6 +52,22 @@ python price_gap.py AAPL -d 7
 | `tickers` | Stock symbols (e.g., AAPL GOOGL) | Required |
 | `-d, --days` | Number of days to look back | 30 |
 
+### Stock Compare (`stock_compare.py`)
+
+Compare the 30-day price change of any two stock symbols.
+
+```bash
+# Compare AAPL vs MSFT over the last 30 days
+python stock_compare.py AAPL MSFT
+```
+
+| Argument | Description | Default |
+|----------|-------------|---------|
+| `stock_symbol_1` | First stock symbol (e.g., AAPL) | Required |
+| `stock_symbol_2` | Second stock symbol (e.g., MSFT) | Required |
+
+Reports each symbol's 30-day price change, the absolute difference between them, and which one outperformed.
+
 ### Portfolio Export (`portfolio_export.py`)
 
 Export a Yahoo Finance portfolio's holdings and prices to CSV.
