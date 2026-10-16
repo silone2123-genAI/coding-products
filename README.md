@@ -45,12 +45,18 @@ python price_gap.py AAPL GOOGL MSFT
 
 # Custom period
 python price_gap.py AAPL -d 7
+
+# Load symbols from a list file (one symbol per line)
+python price_gap.py -f template/symbol_list
 ```
 
 | Argument | Description | Default |
 |----------|-------------|---------|
-| `tickers` | Stock symbols (e.g., AAPL GOOGL) | Required |
+| `tickers` | Stock symbols (e.g., AAPL GOOGL) | Required (unless `-f`) |
+| `-f, --file` | Symbol list file, one symbol per line (blank lines and `#` comments ignored) | None |
 | `-d, --days` | Number of days to look back | 30 |
+
+Provide either `tickers` or `-f/--file`, not both. Results are printed as a summary table with each symbol's price today, price N days ago, and absolute/percentage gap.
 
 ### Stock Compare (`stock_compare.py`)
 

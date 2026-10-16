@@ -3,6 +3,18 @@ import argparse
 from datetime import datetime, timedelta
 
 
+def load_symbol_list(path: str) -> list[str]:
+    """Read symbols from a file, one per line. Blank lines and # comments are ignored."""
+    symbols = []
+    with open(path) as f:
+        for line in f:
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+            symbols.append(line.split()[0].upper())
+    return symbols
+
+
 def get_price_gap(tickers: list[str], period_days: int = 30):
     """
     Display the price gap between current day and N days ago for given symbol(s).
@@ -40,11 +52,28 @@ def main():
     parser = argparse.ArgumentParser(
         description="List price gap between current day and N days ago for given symbol(s)."
     )
-    parser.add_argument("tickers", nargs="+", help="Stock symbols (e.g., AAPL GOOGL MSFT)")
+    parser.add_argument("tickers", nargs="*", help="Stock symbols (e.g., AAPL GOOGL MSFT)")
+    parser.add_argument("-f", "--file", help="Path to a symbol list file (one symbol per line)")
     parser.add_argument("-d", "--days", type=int, default=30, help="Number of days to look back (default: 30)")
 
     args = parser.parse_args()
-    get_price_gap(args.tickers, args.days)
+
+    if args.file and args.tickers:
+        parser.error("provide either tickers or --file, not both")
+
+    if args.file:
+        try:
+            tickers = load_symbol_list(args.file)
+        except OSError as e:
+            parser.error(f"Could not read symbol list {args.file}: {e}")
+        if not tickers:
+            parser.error(f"No symbols found in {args.file}")
+    elif args.tickers:
+        tickers = [t.upper() for t in args.tickers]
+    else:
+        parser.error("provide at least one ticker or --file")
+
+    get_price_gap(tickers, args.days)
 
 
 if __name__ == "__main__":
